@@ -10,6 +10,7 @@ const demos = {
   performance: require('./demo-performance').default,
   treeGroups: require('./demo-tree-groups').default,
   linkedTimelines: require('./demo-linked-timelines').default,
+  linkedTimelinesReactDND: require('./demo-linked-timelines-react-dnd').default,
   elementResize: require('./demo-element-resize').default,
   stickyHeader: require('./demo-sticky-header').default,
   verticalClasses: require('./demo-vertical-classes').default,

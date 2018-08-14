@@ -41,6 +41,7 @@ export default class GroupRows extends Component {
     for (let i = 0; i < lineCount; i++) {
       lines.push(
         <GroupRow
+          accepts={['item_1']}
           clickTolerance={clickTolerance}
           onContextMenu={evt => onRowContextClick(evt, i)}
           onClick={evt => onRowClick(evt, i)}

@@ -26,7 +26,8 @@ export default function (groupCount = 30, itemCount = 1000, daysInPast = 30) {
       title: faker.hacker.phrase(),
       start: startValue,
       end: endValue,
-      canMove: startValue > new Date().getTime(),
+      // canMove: startValue > new Date().getTime(),
+      canMove: false,
       canResize: startValue > new Date().getTime() ? (endValue > new Date().getTime() ? 'both' : 'left') : (endValue > new Date().getTime() ? 'right' : false),
       className: (moment(startDate).day() === 6 || moment(startDate).day() === 0) ? 'item-weekend' : '',
       bgColor: randomColor({ luminosity: 'light', seed: randomSeed + i, format:'rgba', alpha:0.6 }),
@@ -34,6 +35,9 @@ export default function (groupCount = 30, itemCount = 1000, daysInPast = 30) {
       color: randomColor({ luminosity: 'dark', seed: randomSeed + i }),
       itemProps: {
         'data-tip': faker.hacker.phrase(),
+      },
+      style: {
+        background: 'red',
       }
     })
   }

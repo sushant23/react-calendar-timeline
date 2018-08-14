@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { DropTarget } from 'react-dnd';
 import PreventClickOnDrag from '../interaction/PreventClickOnDrag'
 
 class GroupRow extends Component {
@@ -44,4 +45,10 @@ class GroupRow extends Component {
   }
 }
 
-export default GroupRow
+const collect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  hovered: monitor.isOver(),
+  item: monitor.getItem(),
+})
+
+export default DropTarget(props => props.accepts, {}, collect)(GroupRow)

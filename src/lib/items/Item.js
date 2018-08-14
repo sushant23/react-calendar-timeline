@@ -574,7 +574,7 @@ export default class Item extends Component {
       timelineContext,
       itemContext,
       getItemProps: this.getItemProps,
-      getResizeProps: this.getResizeProps
+      getResizeProps: this.getResizeProps,
     })
   }
 }
