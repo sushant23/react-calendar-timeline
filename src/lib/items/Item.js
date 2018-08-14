@@ -449,33 +449,6 @@ export default class Item extends Component {
     }
   }
 
-  onMouseDown = e => {
-    if (!this.state.interactMounted) {
-      e.preventDefault()
-      this.startedClicking = true
-    }
-  }
-
-  onMouseUp = e => {
-    if (!this.state.interactMounted && this.startedClicking) {
-      this.startedClicking = false
-      this.actualClick(e, 'click')
-    }
-  }
-
-  onTouchStart = e => {
-    if (!this.state.interactMounted) {
-      e.preventDefault()
-      this.startedTouching = true
-    }
-  }
-
-  onTouchEnd = e => {
-    if (!this.state.interactMounted && this.startedTouching) {
-      this.startedTouching = false
-      this.actualClick(e, 'touch')
-    }
-  }
 
   handleDoubleClick = e => {
     e.stopPropagation()
@@ -512,10 +485,7 @@ export default class Item extends Component {
       key: this.itemId,
       ref: this.getItemRef,
       className: classNames + ` ${props.className ? props.className : ''}`,
-      onMouseDown: composeEvents(this.onMouseDown, props.onMouseDown),
-      onMouseUp: composeEvents(this.onMouseUp, props.onMouseUp),
-      onTouchStart: composeEvents(this.onTouchStart, props.onTouchStart),
-      onTouchEnd: composeEvents(this.onTouchEnd, props.onTouchEnd),
+      onClick: (e) => this.actualClick(e, 'click'),
       onDoubleClick: composeEvents(this.handleDoubleClick, props.onDoubleClick),
       onContextMenu: composeEvents(this.handleContextMenu, props.onContextMenu),
       style: Object.assign({}, this.getItemStyle(props))
