@@ -24,15 +24,14 @@ const Item = ({item, itemContext, getItemProps, getResizeProps, connectDragSourc
 
 const itemSource = {
   beginDrag(props) {
-    console.log("begin drag");
     return props.item;
   },
   endDrag(props, monitor, component) {
-    console.log("end drag");
     if (!monitor.didDrop()) {
       return;
     }
-    console.log("dropped on target");
+    const {clientOffset, group} = monitor.getDropResult();
+    props.onDrop(group, clientOffset);
   }
 }
 
@@ -43,7 +42,7 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging(),
   }
 }
-const DraggableItem = DragSource((props) => `item_${props.item.id}`, itemSource, collect)(Item) ;
+const DraggableItem = DragSource((props) => `item`, itemSource, collect)(Item) ;
 
 export const defaultItemRenderer = (props) => <DraggableItem {...props} /> 
 

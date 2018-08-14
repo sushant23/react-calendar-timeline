@@ -10,7 +10,6 @@ import Timeline, { HTML5Backend, DragDropContext } from 'react-calendar-timeline
 // import containerResizeDetector from 'react-calendar-timeline/lib/resize-detector/container'
 
 import generateFakeData from '../generate-fake-data'
-import Item from './item';
 
 var keys = {
   groupIdKey: 'id',
@@ -70,6 +69,14 @@ export class App extends Component {
     this.setState({ visibleTimeStart, visibleTimeEnd })
   }
 
+  handleItemMove = (item, group, time) => {
+
+    const filteredItem = this.state.items1.filter(im => im.id !== item.id);
+    const newItems = [...filteredItem, {...item, group: group.id}];
+    this.setState({items1: newItems});
+
+  }
+
   renderFirst() {
     const { groups1, items1, visibleTimeStart, visibleTimeEnd } = this.state
 
@@ -90,6 +97,7 @@ export class App extends Component {
         visibleTimeStart={visibleTimeStart}
         visibleTimeEnd={visibleTimeEnd}
         onTimeChange={this.handleTimeChangeFirst}
+        onItemMove={this.handleItemMove}
       />
     )
   }

@@ -570,6 +570,7 @@ export default class Item extends Component {
     }
 
     return this.props.itemRenderer({
+      onDrop: this.props.onDrop,
       item: this.props.item,
       timelineContext,
       itemContext,

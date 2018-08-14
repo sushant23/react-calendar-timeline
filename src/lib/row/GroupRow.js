@@ -12,7 +12,8 @@ class GroupRow extends Component {
     style: PropTypes.object.isRequired,
     clickTolerance: PropTypes.number.isRequired,
     group: PropTypes.object.isRequired,
-    horizontalLineClassNamesForGroup: PropTypes.func
+    horizontalLineClassNamesForGroup: PropTypes.func,
+    connectDropTarget: PropTypes.func,
   }
 
   render() {
@@ -24,7 +25,8 @@ class GroupRow extends Component {
       onClick,
       clickTolerance,
       horizontalLineClassNamesForGroup,
-      group
+      group,
+      connectDropTarget,
     } = this.props
 
     let classNamesForGroup = [];
@@ -34,12 +36,12 @@ class GroupRow extends Component {
 
     return (
       <PreventClickOnDrag clickTolerance={clickTolerance} onClick={onClick}>
-        <div
+        {connectDropTarget(<div
           onContextMenu={onContextMenu}
           onDoubleClick={onDoubleClick}
           className={(isEvenRow ? 'rct-hl-even ' : 'rct-hl-odd ') + (classNamesForGroup ? classNamesForGroup.join(' ') : '')}
           style={style}
-        />
+        />)}
       </PreventClickOnDrag>
     )
   }
@@ -51,4 +53,13 @@ const collect = (connect, monitor) => ({
   item: monitor.getItem(),
 })
 
-export default DropTarget(props => props.accepts, {}, collect)(GroupRow)
+const spec = {
+  drop(props, monitor){
+    return {
+      group: props.group,
+      clientOffset: monitor.getClientOffset(),
+    };
+  }
+}
+
+export default DropTarget('item', spec, collect)(GroupRow)

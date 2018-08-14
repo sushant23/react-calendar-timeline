@@ -692,10 +692,22 @@ export default class ReactCalendarTimeline extends Component {
     })
   }
 
-  dropItem = (item, dragTime, newGroupOrder) => {
+  dropItem = (item, group, clientOffset) => {
     this.setState({ draggingItem: null, dragTime: null, dragGroupTitle: null })
+    const { canvasTimeStart, visibleTimeEnd, visibleTimeStart, width } = this.state;
+    const { x } = clientOffset;
+    // FIXME: DRY up way to calculate canvasTimeEnd
+    const zoom = visibleTimeEnd - visibleTimeStart
+    const canvasTimeEnd = zoom * 3 + canvasTimeStart
+    const time  = calculateTimeForXPosition(
+      canvasTimeStart,
+      canvasTimeEnd,
+      width * 3,
+      x,
+    );
+    console.log("date time", new Date(time), new Date(canvasTimeStart), new Date(canvasTimeEnd));
     if (this.props.onItemMove) {
-      this.props.onItemMove(item, dragTime, newGroupOrder)
+      this.props.onItemMove(item, group, time);
     }
   }
 
