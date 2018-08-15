@@ -72,7 +72,7 @@ export class App extends Component {
   handleItemMove = (item, group, time) => {
 
     const filteredItem = this.state.items1.filter(im => im.id !== item.id);
-    const newItems = [...filteredItem, {...item, group: group.id}];
+    const newItems = [...filteredItem, {...item, start: time, end: time + item.start - item.end, group: group.id}];
     this.setState({items1: newItems});
 
   }
@@ -98,6 +98,7 @@ export class App extends Component {
         visibleTimeEnd={visibleTimeEnd}
         onTimeChange={this.handleTimeChangeFirst}
         onItemMove={this.handleItemMove}
+        onCanvasClick={() => {}}
       />
     )
   }
