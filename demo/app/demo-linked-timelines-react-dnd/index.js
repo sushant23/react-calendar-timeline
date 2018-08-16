@@ -1,15 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable no-console */
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import moment from 'moment'
 
 import Timeline, { HTML5Backend, DragDropContext } from 'react-calendar-timeline'
 // import 'react-calendar-timeline/lib/Timeline.css'
 // import './App.css'
-
 // import containerResizeDetector from 'react-calendar-timeline/lib/resize-detector/container'
+import DraggableBox from './DraggableBox'
 
 import generateFakeData from '../generate-fake-data'
+import { DragLayer } from 'react-dnd';
+import CustomDragLayer from './CustomDragLayer';
+import { debug } from 'util';
 
 var keys = {
   groupIdKey: 'id',
@@ -88,6 +91,12 @@ export class App extends Component {
         sidebarWidth={150}
         sidebarContent={<div>Above The Left</div>}
         canMove
+        itemRenderer={props => {
+          const itemProps = props.getItemProps({style: { border: 'none', background: 'none'}});
+         return <div {...itemProps}>
+          <DraggableBox title={props.item.title} itemContext={props.itemContext} />
+         </div>}
+       }
         canResize="right"
         canSelect
         itemsSorted
@@ -121,6 +130,7 @@ export class App extends Component {
       <div>
         {this.renderFirst()}
         {this.renderSecond()}
+        <CustomDragLayer />
       </div>
     )
   }
