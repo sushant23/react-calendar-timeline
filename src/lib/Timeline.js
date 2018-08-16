@@ -159,6 +159,10 @@ export default class ReactCalendarTimeline extends Component {
 
     verticalLineClassNamesForTime: PropTypes.func,
 
+    timelineId: PropTypes.string,
+
+    acceptableSources: PropTypes.arrayOf({calendar: PropTypes.string, items: PropTypes.arrayOf(PropTypes.string)}),
+
     children: PropTypes.node
   }
 
@@ -236,7 +240,8 @@ export default class ReactCalendarTimeline extends Component {
     headerLabelFormats: defaultHeaderLabelFormats,
     subHeaderLabelFormats: defaultSubHeaderLabelFormats,
 
-    selected: null
+    selected: null,
+    acceptableSources: [],
   }
 
   static childContextTypes = {
@@ -693,7 +698,7 @@ export default class ReactCalendarTimeline extends Component {
     })
   }
 
-  dropItem = (item, group, clientOffset) => {
+  dropItem = (item, group, sourceCalendar, destCalendar, clientOffset) => {
     const { dragSnap } = this.props;
     this.setState({ draggingItem: null, dragTime: null, dragGroupTitle: null })
     const { canvasTimeStart, visibleTimeEnd, visibleTimeStart, width } = this.state;
@@ -710,7 +715,7 @@ export default class ReactCalendarTimeline extends Component {
     time = Math.floor(time / dragSnap) * dragSnap
     console.log("date time", x, time, new Date(time), new Date(canvasTimeStart), new Date(canvasTimeEnd));
     if (this.props.onItemMove) {
-      this.props.onItemMove(item, group, time);
+      this.props.onItemMove(item, group, sourceCalendar, destCalendar, time);
     }
   }
 
@@ -794,9 +799,11 @@ export default class ReactCalendarTimeline extends Component {
     }
   }
 
-  rows(canvasWidth, groupHeights, groups) {
+  rows(canvasWidth, groupHeights, groups, acceptableSources, calendar) {
     return (
       <GroupRows
+        calendar={calendar}
+        acceptableSources={acceptableSources}
         groups={groups}
         canvasWidth={canvasWidth}
         lineCount={_length(this.props.groups)}
@@ -1111,7 +1118,9 @@ export default class ReactCalendarTimeline extends Component {
       sidebarWidth,
       rightSidebarWidth,
       timeSteps,
-      traditionalZoom
+      traditionalZoom,
+      acceptableSources,
+      calendar,
     } = this.props
     const {
       draggingItem,
@@ -1208,7 +1217,7 @@ export default class ReactCalendarTimeline extends Component {
                     height,
                     headerHeight
                   )}
-                  {this.rows(canvasWidth, groupHeights, groups)}
+                  {this.rows(canvasWidth, groupHeights, groups, acceptableSources, calendar)}
                   {this.infoLabel()}
                   {this.childrenWithProps(
                     canvasTimeStart,

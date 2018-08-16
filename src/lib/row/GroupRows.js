@@ -13,6 +13,7 @@ export default class GroupRows extends Component {
     groups: PropTypes.array.isRequired,
     horizontalLineClassNamesForGroup: PropTypes.func,
     onRowContextClick: PropTypes.func.isRequired,
+    acceptableSources: PropTypes.arrayOf({calendar: PropTypes.string, items: PropTypes.arrayOf(PropTypes.string)}),
   }
 
   shouldComponentUpdate(nextProps) {
@@ -35,13 +36,16 @@ export default class GroupRows extends Component {
       groups,
       horizontalLineClassNamesForGroup,
       onRowContextClick,
+      acceptableSources,
+      calendar,
     } = this.props
     let lines = []
 
     for (let i = 0; i < lineCount; i++) {
       lines.push(
         <GroupRow
-          accepts={['item']}
+          calendar={calendar}
+          acceptableSources={acceptableSources}
           clickTolerance={clickTolerance}
           onContextMenu={evt => onRowContextClick(evt, i)}
           onClick={evt => onRowClick(evt, i)}

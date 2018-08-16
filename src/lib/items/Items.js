@@ -162,7 +162,7 @@ export default class Items extends Component {
               onResized={this.props.itemResized}
               moveResizeValidator={this.props.moveResizeValidator}
               onDrag={this.props.itemDrag}
-              onDrop={(group, clientOffset) => this.props.itemDrop(item, group, clientOffset)}
+              onDrop={(group, sourceCalendar, destCalendar, clientOffset) => this.props.itemDrop(item, group, sourceCalendar, destCalendar, clientOffset)}
               onItemDoubleClick={this.props.onItemDoubleClick}
               onContextMenu={this.props.onItemContextMenu}
               onSelect={this.props.itemSelect}

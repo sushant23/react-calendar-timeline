@@ -57,9 +57,12 @@ const spec = {
   drop(props, monitor){
     return {
       group: props.group,
+      calendar: props.calendar,
       clientOffset: monitor.getSourceClientOffset(),
     };
   }
 }
 
-export default DropTarget('item', spec, collect)(GroupRow)
+const flattenAcceptableSource = (acceptableSources) => acceptableSources.reduce((acc, as) => acc.concat(as.items.map(it => `${as.calendar}_${it}`)), [])
+
+export default DropTarget(props => flattenAcceptableSource(props.acceptableSources), spec, collect)(GroupRow)

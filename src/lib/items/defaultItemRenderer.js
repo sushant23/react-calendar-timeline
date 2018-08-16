@@ -42,7 +42,7 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging(),
   }
 }
-const DraggableItem = DragSource((props) => `item`, itemSource, collect)(Item) ;
+const DraggableItem = DragSource((props) => props.item.id, itemSource, collect)(Item) ;
 
 export const defaultItemRenderer = (props) => <DraggableItem {...props} /> 
 
