@@ -10,9 +10,7 @@ import Timeline, { HTML5Backend, DragDropContext } from 'react-calendar-timeline
 import DraggableBox from './DraggableBox'
 
 import generateFakeData from '../generate-fake-data'
-import { DragLayer } from 'react-dnd';
 import CustomDragLayer from './CustomDragLayer';
-import { debug } from 'util';
 
 var keys = {
   groupIdKey: 'id',
@@ -38,6 +36,13 @@ const SecondCalendar = (props) =><div><Timeline
       stackItems
       itemHeightRatio={0.75}
     /></div>
+
+const itemRenderer = props => {
+          const itemProps = props.getItemProps({style: { border: 'none', background: 'none'}});
+         return <div {...itemProps}>
+          <DraggableBox title={props.item.title} itemContext={props.itemContext} onDrop={props.onDrop} />
+         </div>}
+
 
 export class App extends Component {
   constructor(props) {
@@ -73,9 +78,9 @@ export class App extends Component {
   }
 
   handleItemMove = (item, group, time) => {
-
     const filteredItem = this.state.items1.filter(im => im.id !== item.id);
-    const newItems = [...filteredItem, {...item, start: time, end: time + item.start - item.end, group: group.id}];
+    // const newItems = [...filteredItem, {...item, start: time, end: time + item.start - item.end, group: group.id}];
+    const newItems = [...filteredItem, {...item, group: group.id}];
     this.setState({items1: newItems});
 
   }
@@ -91,12 +96,7 @@ export class App extends Component {
         sidebarWidth={150}
         sidebarContent={<div>Above The Left</div>}
         canMove
-        itemRenderer={props => {
-          const itemProps = props.getItemProps({style: { border: 'none', background: 'none'}});
-         return <div {...itemProps}>
-          <DraggableBox title={props.item.title} itemContext={props.itemContext} />
-         </div>}
-       }
+        itemRenderer={itemRenderer}
         canResize="right"
         canSelect
         itemsSorted
@@ -116,11 +116,13 @@ export class App extends Component {
     const { groups2, items2, visibleTimeStart, visibleTimeEnd } = this.state
     return (
       <SecondCalendar
+        itemRenderer={itemRenderer}
         groups={groups2}
         items={items2}
         visibleTimeStart={visibleTimeStart}
         visibleTimeEnd={visibleTimeEnd}
         keys={keys}
+        onItemMove={this.handleItemMove}
         onTimeChange={this.handleTimeChangeSecond} />
     )
   }

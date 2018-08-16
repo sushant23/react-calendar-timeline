@@ -7,7 +7,14 @@ const boxSource = {
 	beginDrag(props) {
         const { title, itemContext: { dimensions: { top, left, height, width} } } = props
 		return { title, top, left, height, width}
-	},
+    },
+    endDrag(props, monitor, component) {
+        if (!monitor.didDrop()) {
+        return;
+        }
+        const {clientOffset, group} = monitor.getDropResult();
+        props.onDrop(group, clientOffset);
+    }
 }
 
 class DraggableBox extends React.PureComponent{

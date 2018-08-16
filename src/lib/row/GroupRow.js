@@ -57,7 +57,7 @@ const spec = {
   drop(props, monitor){
     return {
       group: props.group,
-      clientOffset: monitor.getClientOffset(),
+      clientOffset: monitor.getSourceClientOffset(),
     };
   }
 }
